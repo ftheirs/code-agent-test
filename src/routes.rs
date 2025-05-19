@@ -1,9 +1,5 @@
-use actix_web::{get, Responder};
-
-// Placeholder handler function
-async fn hello_world_handler() -> impl Responder {
-    "Hello World!"
-}
+use actix_web::get;
+use crate::handlers::hello_world_handler;
 
 pub fn configure_routes(cfg: &mut actix_web::web::ServiceConfig) {
     cfg.service(index);
@@ -11,11 +7,11 @@ pub fn configure_routes(cfg: &mut actix_web::web::ServiceConfig) {
 }
 
 #[get("/")]
-async fn index() -> impl Responder {
+async fn index() -> impl actix_web::Responder {
     hello_world_handler().await
 }
 
 #[get("/hello")]
-async fn hello() -> impl Responder {
+async fn hello() -> impl actix_web::Responder {
     hello_world_handler().await
 }
