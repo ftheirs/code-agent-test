@@ -1,4 +1,4 @@
-use actix_web::get;
+use actix_web::{get, HttpRequest};
 use crate::handlers::hello_world_handler;
 
 pub fn configure_routes(cfg: &mut actix_web::web::ServiceConfig) {
@@ -7,11 +7,11 @@ pub fn configure_routes(cfg: &mut actix_web::web::ServiceConfig) {
 }
 
 #[get("/")]
-async fn index() -> impl actix_web::Responder {
-    hello_world_handler().await
+async fn index(req: HttpRequest) -> impl actix_web::Responder {
+    hello_world_handler(req).await
 }
 
 #[get("/hello")]
-async fn hello() -> impl actix_web::Responder {
-    hello_world_handler().await
+async fn hello(req: HttpRequest) -> impl actix_web::Responder {
+    hello_world_handler(req).await
 }
