@@ -1,6 +1,8 @@
-use actix_web::{App, HttpServer, Responder};
+use actix_web::{App, HttpServer};
 use dotenv::dotenv;
 use std::env;
+
+mod routes;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,7 +16,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         App::new()
-            // Add routes here later
+            .configure(routes::configure_routes)
     })
     .bind(&address)?
     .run()
