@@ -1,6 +1,8 @@
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
 use std::env;
+use log::info;
+use env_logger;
 
 #[get("/")]
 async fn hello() -> impl Responder {
@@ -19,7 +21,7 @@ async fn main() -> std::io::Result<()> {
 
     let server_address = format!("127.0.0.1:{}", server_port);
 
-    log::info!("Starting server at {}", server_address);
+    info!("Starting server at {}", server_address);
 
     HttpServer::new(|| {
         App::new()
