@@ -1,6 +1,5 @@
-use actix_web::{App, HttpServer, Responder, HttpResponse};
+use actix_web::{App, HttpResponse, HttpServer};
 use api_rust::config::{self, AppConfig};
-use tokio;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -12,7 +11,9 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             // Basic handler to ensure the server runs
-            .default_service(actix_web::web::to(|| async { HttpResponse::NotFound().body("Not Found") }))
+            .default_service(actix_web::web::to(|| async {
+                HttpResponse::NotFound().body("Not Found")
+            }))
     })
     .bind(format!("{}:{}", config.host, config.port))?
     .run()
