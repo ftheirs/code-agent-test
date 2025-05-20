@@ -24,8 +24,8 @@ jobs:
         run: cargo build --verbose
 
       # Placeholder steps for future tasks
-      - name: Run tests (placeholder)
-        run: echo "Tests will run here later"
+      - name: Run tests
+        run: cargo test --verbose
 
       - name: Run quality checks (placeholder)
         run: echo "Quality checks (linting, formatting) will run here later"
