@@ -1,21 +1,27 @@
 use actix_web::{App, HttpServer};
 use env_logger;
 use log::info;
+use dotenv::dotenv;
 
 mod config;
 mod routes;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // Load .env file if it exists. This should be done before loading config.
+    dotenv().ok();
+
+    // Initialize logger - env_logger reads RUST_LOG environment variable
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
-    let app_config = match config::AppConfig::from_env() {
+    let app_config = match config::AppConfig::load_config() {
         Ok(cfg) => cfg,
         Err(e) => {
             log::error!("Failed to load configuration: {}", e);
+            // Exit the application if configuration loading fails
             return Err(std::io::Error::new(
                 std::io::ErrorKind::Other,
-                "Failed to load configuration",
+                format!("Failed to load configuration: {}", e),
             ));
         }
     };
