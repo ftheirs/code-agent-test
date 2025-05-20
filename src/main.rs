@@ -1,3 +1,3 @@
-n main() {
+fn main() {
     println!("Hello, Atlas!");
 }
