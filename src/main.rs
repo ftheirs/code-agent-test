@@ -1,6 +1,5 @@
-use actix_web::{App, HttpResponse, HttpServer, Responder};
+use actix_web::{App, HttpResponse, HttpServer};
 use api_rust::config::{self, AppConfig};
-use tokio;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
