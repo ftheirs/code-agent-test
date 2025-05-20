@@ -4,6 +4,7 @@ use log::{info, LevelFilter};
 use dotenv::dotenv;
 
 mod config;
+mod handlers;
 mod routes;
 
 #[actix_web::main]
