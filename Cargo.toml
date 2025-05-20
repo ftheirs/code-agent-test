@@ -12,6 +12,7 @@ env_logger = "0.10.x"
 log = "0.4.x"
 dotenv = "0.15.x"
 config = "0.13.x"
+mime = "0.3.x"
 
 [dev-dependencies]
 actix-rt = "2.8.x"
