@@ -2,7 +2,7 @@
 mod integration_tests {
     use actix_web::{test, App, HttpServer};
     use actix_rt; // Required for the test attribute
-    use reqwest; // Required for making HTTP requests in future tests
+    use reqwest::{self, StatusCode}; // Required for making HTTP requests and checking status
     use std::net::TcpListener; // To bind to an available port
     use log::info; // For logging within tests
     use env_logger; // For initializing logger in tests
@@ -46,8 +46,39 @@ mod integration_tests {
         assert!(!server_address.is_empty());
 
         info!("Test server successfully spawned at: {}", server_address);
+    }
 
-        // In future tasks, use reqwest to make requests to server_address
-        // and assert responses.
+    #[actix_rt::test]
+    async fn test_hello_root() {
+        let server_address = spawn_server().await;
+        let client = reqwest::Client::new();
+
+        let res = client.get(&format!("http://{}/", server_address))
+            .send()
+            .await
+            .expect("Failed to send request to /");
+
+        assert_eq!(res.status(), StatusCode::OK);
+        let body = res.text().await.expect("Failed to read response body from /");
+        assert_eq!(body, "Hello World!");
+
+        info!("GET / integration test passed");
+    }
+
+    #[actix_rt::test]
+    async fn test_hello_path() {
+        let server_address = spawn_server().await;
+        let client = reqwest::Client::new();
+
+        let res = client.get(&format!("http://{}/hello", server_address))
+            .send()
+            .await
+            .expect("Failed to send request to /hello");
+
+        assert_eq!(res.status(), StatusCode::OK);
+        let body = res.text().await.expect("Failed to read response body from /hello");
+        assert_eq!(body, "Hello World!");
+
+        info!("GET /hello integration test passed");
     }
 }
