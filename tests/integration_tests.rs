@@ -6,6 +6,7 @@ mod integration_tests {
     use std::net::TcpListener; // To bind to an available port
     use log::info; // For logging within tests
     use env_logger; // For initializing logger in tests
+    use tokio; // Required for tokio::spawn
 
     // Import main application setup (routes)
     use crate::routes::configure_routes;
