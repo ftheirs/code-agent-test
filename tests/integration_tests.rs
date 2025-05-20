@@ -3,6 +3,7 @@ mod integration_tests {
     use actix_web::{test, App, HttpServer};
     use actix_rt; // Required for the test attribute
     use reqwest; // Required for making HTTP requests in future tests
+    use reqwest::StatusCode; // Required for asserting status codes
     use std::net::TcpListener; // To bind to an available port
     use log::info; // For logging within tests
     use env_logger; // For initializing logger in tests
@@ -38,16 +39,40 @@ mod integration_tests {
     }
 
     #[actix_rt::test]
-    async fn test_server_spawns() {
+    async fn test_get_root() {
         // Spawn the server
         let server_address = spawn_server().await;
 
-        // Assert that the server address is not empty, indicating it started
-        assert!(!server_address.is_empty());
+        // Make a GET request to the root path
+        let url = format!("http://{}/", server_address);
+        let response = reqwest::get(&url).await.expect("Failed to send request to /");
 
-        info!("Test server successfully spawned at: {}", server_address);
+        // Assert the status code is 200 OK
+        assert_eq!(response.status(), StatusCode::OK);
 
-        // In future tasks, use reqwest to make requests to server_address
-        // and assert responses.
+        // Assert the response body is 'Hello World!'
+        let body = response.text().await.expect("Failed to get response body from /");
+        assert_eq!(body, "Hello World!");
+
+        info!("GET / test passed");
+    }
+
+    #[actix_rt::test]
+    async fn test_get_hello() {
+        // Spawn the server
+        let server_address = spawn_server().await;
+
+        // Make a GET request to the /hello path
+        let url = format!("http://{}/hello", server_address);
+        let response = reqwest::get(&url).await.expect("Failed to send request to /hello");
+
+        // Assert the status code is 200 OK
+        assert_eq!(response.status(), StatusCode::OK);
+
+        // Assert the response body is 'Hello World!'
+        let body = response.text().await.expect("Failed to get response body from /hello");
+        assert_eq!(body, "Hello World!");
+
+        info!("GET /hello test passed");
     }
 }
