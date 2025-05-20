@@ -5,18 +5,22 @@ use config::ConfigError;
 pub struct AppConfig {
     pub host: String,
     pub port: u16,
+    pub log_level: String,
 }
 
 impl AppConfig {
-    pub fn from_env() -> Result<Self, ConfigError> {
+    // Function to load configuration from environment variables and .env file
+    pub fn load_config() -> Result<Self, ConfigError> {
         let builder = config::Config::builder()
-            .add_source(config::Environment::default());
-
-        // Optional: Add .env file support in development
-        #[cfg(debug_assertions)]
-        let builder = builder.add_source(
-            config::File::from(".env").required(false)
-        );
+            // Add configuration from a .env file (optional)
+            .add_source(
+                config::File::from(".env")
+                    .format(config::FileFormat::DotEnv)
+                    .required(false),
+            )
+            // Add configuration from environment variables (with a prefix, e.g., APP_)
+            // Environment variables typically override file values by default precedence
+            .add_source(config::Environment::default().separator("__")); // Use __ for nested config if needed
 
         builder.build()?.try_deserialize()
     }
