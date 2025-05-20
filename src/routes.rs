@@ -1,5 +1,5 @@
 use actix_web::web;
-use super::handlers;
+use crate::handlers;
 
 pub fn configure_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(
