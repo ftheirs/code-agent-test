@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rust_cli_calculator::calculator;
 
     #[test]
     fn test_add() {
