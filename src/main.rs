@@ -1,5 +1,9 @@
 use clap::Parser;
 
+mod calculator;
+
+use calculator::calculate;
+
 #[derive(Parser, Debug)]
 #[command(author = "Your Name", version = "1.0", about = "A simple CLI calculator", long_about = None)]
 struct Args {
@@ -19,7 +23,8 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    println!("Calculator started with arguments: {:?}", args);
-
-    // Implement calculation logic here
+    match calculate(args.num1, args.num2, &args.operator) {
+        Ok(result) => println!("Result: {}", result),
+        Err(err) => println!("Error: {}", err),
+    }
 }
