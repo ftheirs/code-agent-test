@@ -12,8 +12,7 @@ pub fn multiply(a: f64, b: f64) -> f64 {
 
 pub fn divide(a: f64, b: f64) -> Result<f64, String> {
     if b == 0.0 {
-        Err("Division by zero".to_string())
-    } else {
-        Ok(a / b)
+        return Err("Division by zero".to_string());
     }
+    Ok(a / b)
 }
