@@ -1,10 +1,10 @@
+use calculator::parse_operator;
+use input_parser::parse_input;
+use output_printer::print_output;
+
 mod calculator;
 mod input_parser;
 mod output_printer;
-
-use calculator::{parse_operator};
-use input_parser::parse_input;
-use output_printer::print_output;
 
 fn main() {
     let input = parse_input();
