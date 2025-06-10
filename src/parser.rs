@@ -9,14 +9,14 @@ pub fn parse_arguments() -> Result<(f64, f64, String), String> {
 
     let num1 = match args[1].parse::<f64>() {
         Ok(n) => n,
-        Err(_) => return Err("Invalid number: {}".to_string()),
+        Err(_) => return Err("Invalid number: ".to_string() + &args[1]),
     };
 
     let operator = args[2].clone();
 
     let num2 = match args[3].parse::<f64>() {
         Ok(n) => n,
-        Err(_) => return Err("Invalid number: {}".to_string()),
+        Err(_) => return Err("Invalid number: ".to_string() + &args[3]),
     };
 
     Ok((num1, num2, operator))
